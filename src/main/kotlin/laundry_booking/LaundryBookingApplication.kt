@@ -1,4 +1,4 @@
-package demo
+package laundry_booking
 
 import kotlinx.serialization.Serializable
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -9,15 +9,15 @@ import org.springframework.data.relational.core.mapping.Table
 import org.springframework.data.repository.CrudRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.*
 
-
 @SpringBootApplication
-class DemoApplication
+class LaundryBookingApplication
 
 fun main(args: Array<String>) {
-	runApplication<DemoApplication>(*args)
+	runApplication<LaundryBookingApplication>(*args)
 }
 
 @Serializable
@@ -99,11 +99,16 @@ class BookingResource(val service: BookingService) {
 
 	@PostMapping
 	fun post(@RequestBody req: BookingRequest) {
+		//TODO: Validate req as a part of creating an instance of Booking
 		val booking = Booking(null, req.user.string, req.date, req.timeslot.toString(), req.laundry_room.toString())
+
+		//Find any existing bookings to see if there's a clash
 		val existingBookings = service.listBookings()
 		val bookingClash = existingBookings.filter {
-				booking -> req.timeslot.toString() == booking.timeslot && req.date == booking.date && req.laundry_room.toString() == booking.laundryroom
+				b -> req.timeslot.toString() == b.timeslot && req.date == b.date && req.laundry_room.toString() == b.laundryroom
 		}
+
+		//If there's a clash inform the client
 		if (bookingClash.isEmpty()) {
 			service.createBooking(booking)
 		} else {
@@ -125,6 +130,7 @@ fun validateBookingRequest(req: BookingRequest): Optional<Booking> {
 @Table("BOOKINGS")
 data class Booking(@Id val id: String?, val user: String, val date: String, val timeslot: String, val laundryroom: String)
 
+@Repository
 interface BookingRepository : CrudRepository<Booking, String> {
 	@Query("select * from BOOKINGS")
 	fun findBookings(): List<Booking>
