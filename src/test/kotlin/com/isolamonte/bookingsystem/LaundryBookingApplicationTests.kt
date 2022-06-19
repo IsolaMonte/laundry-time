@@ -1,11 +1,11 @@
-package laundry_booking
+package com.isolamonte.bookingsystem
 
-import org.assertj.core.api.Assertions.assertThat
+import com.isolamonte.bookingsystem.db.Booking
+import com.isolamonte.bookingsystem.db.BookingRepository
+import com.isolamonte.bookingsystem.domain.BookingService
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.context.annotation.Import
 
 //@Disabled("build failure")
 @SpringBootTest
