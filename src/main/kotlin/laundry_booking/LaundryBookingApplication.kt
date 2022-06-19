@@ -3,6 +3,7 @@ package laundry_booking
 import kotlinx.serialization.Serializable
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Bean
 import org.springframework.data.annotation.Id
 import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.relational.core.mapping.Table
@@ -25,7 +26,7 @@ data class BookingRequest(val user: User, val date: String, val timeslot: TimeSl
 
 @Serializable
 @JvmInline
-value class User(val string: String)
+value class User(val value: String)
 
 @Serializable
 enum class TimeSlot(val time: String) {
@@ -89,18 +90,14 @@ class BookingResource(val service: BookingService) {
 
 	@GetMapping("/{id}")
 	fun getOneBooking(@PathVariable id: String): Booking = run {
-		val booking = service.getBookingById(id)
-		if (booking.isEmpty) {
-			throw BookingNotFound("Could not find a booking with the provided id")
-		} else {
-			return booking.get()
-		}
+		return service.getBookingById(id)
+			.orElseThrow{ BookingNotFound("Could not find a booking with the provided id") }
 	}
 
 	@PostMapping
 	fun post(@RequestBody req: BookingRequest) {
 		//TODO: Validate req as a part of creating an instance of Booking
-		val booking = Booking(null, req.user.string, req.date, req.timeslot.toString(), req.laundry_room.toString())
+		val booking = Booking(null, req.user.value, req.date, req.timeslot.toString(), req.laundry_room.toString())
 
 		//Find any existing bookings to see if there's a clash
 		val existingBookings = service.listBookings()
