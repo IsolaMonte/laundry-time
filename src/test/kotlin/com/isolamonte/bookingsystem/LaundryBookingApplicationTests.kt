@@ -1,7 +1,7 @@
 package com.isolamonte.bookingsystem
 
-import com.isolamonte.bookingsystem.db.Booking
 import com.isolamonte.bookingsystem.db.BookingRepository
+import com.isolamonte.bookingsystem.db.types.Booking
 import com.isolamonte.bookingsystem.domain.BookingService
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

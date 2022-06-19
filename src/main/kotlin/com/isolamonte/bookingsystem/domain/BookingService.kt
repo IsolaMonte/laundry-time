@@ -1,7 +1,7 @@
 package com.isolamonte.bookingsystem.domain
 
-import com.isolamonte.bookingsystem.db.Booking
 import com.isolamonte.bookingsystem.db.BookingRepository
+import com.isolamonte.bookingsystem.db.types.Booking
 import org.springframework.stereotype.Service
 
 @Service

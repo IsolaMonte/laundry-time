@@ -3,7 +3,7 @@ package com.isolamonte.bookingsystem.api
 import com.isolamonte.bookingsystem.api.errors.BookingNotFound
 import com.isolamonte.bookingsystem.api.errors.TimeSlotAlreadyTaken
 import com.isolamonte.bookingsystem.api.types.BookingRequest
-import com.isolamonte.bookingsystem.db.Booking
+import com.isolamonte.bookingsystem.db.types.Booking
 import com.isolamonte.bookingsystem.domain.BookingService
 import org.springframework.web.bind.annotation.*
 
