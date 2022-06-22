@@ -17,15 +17,13 @@ class LaundryBookingApplicationTests {
 	fun bookASlot() {
 		// given
 		val service = BookingService(bookingRepository)
-		val kim = Booking(null, "kim", "2022-11-22", "MORNING", "MAPLE_STREET_2")
-		//entityManager.persist(kim)
-		//entityManager.flush()
+		val newBooking = Booking(null, "kim", "2022-11-22", "MORNING", "MAPLE_STREET_2")
 
 		// when
-		val listOfBookings = service.listBookings()
+		// Call API with the new booking
 
 		// then
-		//assertThat(listOfBookings).contains(kim)
+		// Assert response is 201
 	}
 
 }
