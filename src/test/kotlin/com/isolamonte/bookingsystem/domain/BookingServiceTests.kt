@@ -3,11 +3,12 @@ package com.isolamonte.bookingsystem.domain
 import com.isolamonte.bookingsystem.db.BookingRepository
 import com.isolamonte.bookingsystem.db.types.Booking
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 import org.springframework.boot.test.context.SpringBootTest
 
+//@Disabled
 @SpringBootTest
 class BookingServiceTests {
 
@@ -68,7 +69,7 @@ class BookingServiceTests {
 	fun fetchNonExistingBooking() {
 		// given
 		val service = BookingService(bookingRepository)
-		val newBooking = Booking(null, "kim", "2022-11-22", "MORNING", "MAPLE_STREET_3")
+		val newBooking = Booking(null, "kim", "2022-11-03", "MORNING", "MAPLE_STREET_3")
 
 		// when
 		val listOfBookings = service.listBookings()

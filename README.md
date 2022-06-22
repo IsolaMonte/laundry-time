@@ -43,16 +43,16 @@ curl -X GET --location "http://localhost:8080/bookings/<id>"
 make test
 ```
 
-This will run the automated test suites. The Makefile simply wraps gradle and allows we to delete/meddle with the H2 db files before starting the app locally or running the test suite.
-
-As mentioned below the tests break when run more than once via ./gradlew or in IntelliJ, because of how the pre-population is done. If so, just delete `testdb.mv.db` and re-run the tests, or use the makefile command.
-
+This will run the automated test suites. The Makefile simply wraps gradle and allows me to delete/meddle with 
+the H2 db files before starting the app locally or running the test suite.
+As mentioned below the tests break when run more than once via ./gradlew or in IntelliJ, because of how the pre-population is done.
+If so, just delete `testdb.mv.db` and re-run the tests, or use the makefile command.
 
 ## Improvements
 - Database should be a Dockerized replica of production (Postgres for example) instead of file based H2
 (`docker-compose` would then be a pre-req for the persistence layer tests).
-- With current DB setup the `data.sql` pre-population is run on each test invocation,
-which breaks the `checkForBookingClash` test since the SQL injection circumvents the clash-check in the BookingService.
+- With current DB setup the `data.sql` pre-population is run multiple times,
+which breaks the tests (`checkForBookingClash` for example), since the SQL injection circumvents the clash-check in the `BookingService`.
 This is right now fixed by deleting the test db between test runs (ugly hack).
 - In order to fix the db pre-population problem, create and persist new "random" bookings on each run of the test suite
 (dynamic tests data FTW), i.e. create a good generator for the data class `Booking`.
