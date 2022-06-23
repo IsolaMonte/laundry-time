@@ -18,7 +18,7 @@ make run
 This will start the application locally with a TomCat webserver and a file based H2 database called `db.mv.db` located under `data/`.
 The db is, for ease of use and testing purposes, pre-populated with some data, see `data.sql` under `src/main/resources`.
 
-The Makefile simply wraps gradle and allows we to delete/meddle with the H2 db files before starting the app locally or running the test suite.
+The Makefile simply wraps gradle and allows me to delete/meddle with the H2 db files before starting the app locally or running the test suite.
 
 When running locally the REST API can be tested with `cURL`, example calls below:
 
@@ -36,6 +36,11 @@ curl -X GET --location "http://localhost:8080/bookings"
 Fetch a booking by id
 ```bash
 curl -X GET --location "http://localhost:8080/bookings/<id>"
+```
+
+Delete a booking by id
+```bash
+curl -X DELETE --location "http://localhost:8080/bookings/<id>"
 ```
 
 ## How to test
@@ -59,3 +64,5 @@ This is right now fixed by deleting the test db between test runs (ugly hack).
 - With good generators for the domain types we could also add property based testing.
 - Users should be authenticated, i.e. instead of passing usernames as arg in the request body,
 they should be fetched from auth context in the RestController.
+- The primary key for the booking row should be generated in code, not by the db. That way, even with DB failure,
+a 202 with location header can be returned to the client and the application can self-heal once the DB is back up.
